@@ -1,0 +1,9 @@
+@font-face {
+	font-family: 'body'; 
+	src: url(/src/fonts/body.ttf); 
+}
+
+body {
+  margin: 0;
+  font-family: 'body'; 
+}
