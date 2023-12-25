@@ -22,7 +22,8 @@ function AddTask() {
         }
     };
 
-    const addNewTask = () => {
+    const addNewTask = (e) => {
+        e.preventDefault();
         setBacklog([...backlog, { id: uuid(), task: text }]);
         setModalView(false);
         setText('');
@@ -34,7 +35,7 @@ function AddTask() {
             <div className={`${styles.modal} ${modalView ? styles.show : null}`}>
                 <form className={`${styles.form}`}>
                     <h1 className={`${styles.title}`}>Enter the task text</h1>
-                    <textarea className={`${styles.textarea}`} minlength="5" value={text}
+                    <textarea className={`${styles.textarea}`} value={text}
                         onChange={e => setText(e.target.value)}>{text}</textarea>
                     <img src={logoCloseBtn} alt="closeBtnImg" className={`${styles.closeBtn}`} onClick={closeModal}></img>
                     <span className={`${styles.buttonBlock}`} onClick={addNewTask}><button className={`${styles.buttonForm}`} type="submit">+</button></span>
