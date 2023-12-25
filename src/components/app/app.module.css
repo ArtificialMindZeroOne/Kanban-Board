@@ -1,0 +1,16 @@
+.app {
+  width: 100%;
+  min-height: 100vh;
+  height: fit-content;
+  margin: 0 auto;
+  background: url("../../assets/bakground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+}
