@@ -1,8 +1,8 @@
-.backlogList {
+.backlog {
     width: 70%;
     aspect-ratio: 1/1;
     background-color: #f3ed5b;
-    padding: 10px;
+    padding: 30px 10px 10px 10px;
     font-size: 28px;
     display: flex;
     justify-content: center;
@@ -14,8 +14,23 @@
     box-shadow: 4px 4px 8px 5px rgba(34, 60, 80, 0.47);
     white-space: pre-wrap;
     word-break: break-all;
+    position: relative;
 }
 
 .hidden {
     opacity: 0;
+}
+
+.deletePin {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 0;
+    right: 38%;
+    cursor: pointer;
+}
+
+.deletePin:hover {
+    background-color: white;
+    border-radius: 50%;
 }

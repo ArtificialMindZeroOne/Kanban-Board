@@ -3,11 +3,11 @@ import StatusOne from "../status-one/status-one.jsx";
 import StatusTwo from "../status-two/status-two.jsx";
 import StatusThree from "../status-three/status-three.jsx";
 import StatusFour from "../status-four/status-four.jsx";
-import BacklogList from "../backlog-list/backlog-list.jsx";
+import Backlog from "../backlog/backlog.jsx";
 import InProgress from "../in-progress/in-progress.jsx";
 import Checking from "../checking/checking.jsx";
 import Done from "../done/done.jsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import BoardContext from '../../services/boardContext.jsx';
 import { useDrop } from 'react-dnd';
 import AddTaskBtn from '../add-task-btn/add-task-btn.jsx';
@@ -20,6 +20,19 @@ function Board() {
     const [checking, setChecking] = useState([]);
     const [done, setDone] = useState([]);
     const [modalView, setModalView] = useState(false);
+    const [acceptDeleteWindow, setAcceptDeleteWindow] = useState(false);
+    const [acceptDeleteAllWindow, setAcceptDeleteAllWindow] = useState(false);
+    const [text, setText] = useState('');
+    const [choosenTask, setChoosenTask] = useState();
+
+    window.onkeydown = function (e) {
+        if (e.keyCode == 27) {
+            setAcceptDeleteWindow(false);
+            setAcceptDeleteAllWindow(false);
+            setModalView(false);
+            setText('');
+        }
+    };
 
     const [{ isDraggingOverBacklog }, dropRef1] = useDrop({
         accept: ['checking', 'progress', 'done'],
@@ -74,7 +87,7 @@ function Board() {
     });
 
     return (
-        <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, setChecking, setDone }}>
+        <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, checking, setChecking, done, setDone, acceptDeleteWindow, setAcceptDeleteWindow, text, setText, choosenTask, setChoosenTask, acceptDeleteAllWindow, setAcceptDeleteAllWindow }}>
             <CleanTasksBtn />
             <AddTask />
             <section className={styles.board}>
@@ -90,7 +103,7 @@ function Board() {
                 <div className={styles.statusList}>
                     <div className={`${styles.statusList__column} ${isDraggingOverBacklog ? styles.canDrop : null}`} ref={dropRef1}>
                         {backlog.map((el) => (
-                            <BacklogList key={el.id} text={el} />
+                            <Backlog key={el.id} text={el} />
                         ))}
                     </div>
                     <div className={`${styles.statusList__column} ${isDraggingOverInProgress ? styles.canDrop : null}`} ref={dropRef2}>

@@ -1,5 +1,6 @@
 .statusOne {
     width: calc(25% - 2px);
+    min-width: 211px;
     padding: 10px;
     display: flex;
     align-items: center;

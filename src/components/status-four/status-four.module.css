@@ -1,5 +1,6 @@
 .statusFour {
     width: 25%;
+    min-width: 211px;
     padding: 10px;
     display: flex;
     align-items: center;
