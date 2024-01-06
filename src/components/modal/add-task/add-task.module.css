@@ -225,3 +225,14 @@
     pointer-events: none;
     opacity: .6;
 }
+
+.micro {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.micro:hover {
+  background-color: gray;
+}
