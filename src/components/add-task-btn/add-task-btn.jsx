@@ -3,10 +3,13 @@ import { useContext } from 'react';
 import BoardContext from '../../services/boardContext.jsx';
 
 function AddTaskBtn() {
-    const { modalView, setModalView } = useContext(BoardContext);
+    const { setModalView, setText, setDisabledBtn } = useContext(BoardContext);
 
     const openModal = () => {
-        setModalView(true)
+        document.getElementById('textArea').value = '';
+        setText('');
+        setDisabledBtn([]);
+        setModalView(true);
     };
 
     return (

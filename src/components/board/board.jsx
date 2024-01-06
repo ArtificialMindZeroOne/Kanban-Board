@@ -24,6 +24,7 @@ function Board() {
     const [acceptDeleteAllWindow, setAcceptDeleteAllWindow] = useState(false);
     const [text, setText] = useState('');
     const [choosenTask, setChoosenTask] = useState();
+    const [disabledBtn, setDisabledBtn] = useState([]);
 
     window.onkeydown = function (e) {
         if (e.keyCode == 27) {
@@ -87,7 +88,7 @@ function Board() {
     });
 
     return (
-        <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, checking, setChecking, done, setDone, acceptDeleteWindow, setAcceptDeleteWindow, text, setText, choosenTask, setChoosenTask, acceptDeleteAllWindow, setAcceptDeleteAllWindow }}>
+        <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, checking, setChecking, done, setDone, acceptDeleteWindow, setAcceptDeleteWindow, text, setText, choosenTask, setChoosenTask, acceptDeleteAllWindow, setAcceptDeleteAllWindow, disabledBtn, setDisabledBtn }}>
             <CleanTasksBtn />
             <AddTask />
             <section className={styles.board}>

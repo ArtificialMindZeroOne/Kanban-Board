@@ -2,3 +2,9 @@
     font-size: 100px;
     padding: 50px;
 }
+
+@media screen and (max-width: 1080px) {
+    .header {
+        font-size: 60px;
+    }
+}
