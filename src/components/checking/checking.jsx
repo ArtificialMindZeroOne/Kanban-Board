@@ -6,7 +6,7 @@ import BoardContext from '../../services/boardContext.jsx';
 import AcceptDeleteTask from '../modal/accept-delete-task/accept-delete-task.jsx';
 
 function Checking({ text }) {
-  const { checking, setChecking, setAcceptDeleteWindow, setChoosenTask } = useContext(BoardContext);
+  const { setAcceptDeleteWindow, setChoosenTask, setDeleteColumn } = useContext(BoardContext);
 
   const [{ isDraggingStart }, dragRef] = useDrag({
     type: 'checking',
@@ -19,6 +19,7 @@ function Checking({ text }) {
   const deleteThisTask = () => {
     setAcceptDeleteWindow(true);
     setChoosenTask(text);
+    setDeleteColumn('checking');
   };
 
   return (
@@ -27,7 +28,7 @@ function Checking({ text }) {
         {text.task}
         <img src={logoCloseBtn} alt="deleteIon" className={`${styles.deletePin}`} onClick={deleteThisTask}></img>
       </article>
-      <AcceptDeleteTask setter={setChecking} column={checking} />
+      <AcceptDeleteTask />
     </>
   );
 }

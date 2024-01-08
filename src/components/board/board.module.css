@@ -24,7 +24,6 @@
 
 .statusList__column {
     width: calc(25% - 2px);
-
     border: none;
     border-right: 2px solid;
     margin: 0;
@@ -41,7 +40,6 @@
 }
 
 .canDrop {
-    opacity: .6;
     background-color: rgb(192, 192, 192);
 }
 

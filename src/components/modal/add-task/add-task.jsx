@@ -10,6 +10,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 function AddTask() {
     const { modalView, setModalView, backlog, setBacklog, text, setText, disabledBtn, setDisabledBtn } = useContext(BoardContext);
+    const [toggleValueMicro, setToggleValueMicro] = useState(false);
 
     const {
         transcript,
@@ -21,9 +22,13 @@ function AddTask() {
     const textArea = useRef();
 
     const closeModal = () => {
+        if (toggleValueMicro === true) {
+            setToggleValueMicro(false);
+            SpeechRecognition.stopListening();
+        }
         setModalView(false);
         resetTranscript();
-        SpeechRecognition.stopListening()
+
     };
 
     const addNewTask = (e) => {
@@ -33,26 +38,26 @@ function AddTask() {
         resetTranscript();
     };
 
-    const [toggleValue, setToggleValue] = useState(false);
-
     const handleVoiceStart = () => {
-        setToggleValue(!toggleValue);
-        if (toggleValue === false) {
+        setToggleValueMicro(!toggleValueMicro);
+        if (toggleValueMicro === false) {
             SpeechRecognition.startListening({ continuous: true });
         } else {
-            SpeechRecognition.stopListening()
+            SpeechRecognition.stopListening({ continuous: false });
         }
-
-
     }
 
     useEffect(() => {
-        textArea.current.value = [`${text} ${transcript}`].join('').replace(/(^[\s]+|[\s]+$)/g, '');
+        textArea.current.value = ([`${text} ${transcript}`].join('').replace(/(^[\s]+|[\s]+$)/g, ''))
     }, [transcript]);
 
     useEffect(() => {
-        setDisabledBtn([textArea.current.value])
+        setDisabledBtn([textArea.current.value]);
     }, [text, transcript]);
+
+    useEffect(() => {
+        setText([`${text}`].join('').replace(/(^[\s]+|[\s]+$)/g, ''));
+    }, [listening])
 
     return (
         <>
@@ -61,13 +66,16 @@ function AddTask() {
                 <form className={`${styles.form}`}>
                     <h1 className={`${styles.title}`}>Enter the task text</h1>
                     <textarea className={`${styles.textarea}`}
-                        onChange={e => setText(e.target.value)} ref={textArea} id="textArea" placeholder="Write the task and you can also press microphone for voice record">{text}</textarea>
+                        onChange={e => {
+                            setText(e.target.value);
+                            resetTranscript();
+                        }} ref={textArea} id="textArea" placeholder="Write the task and you can also press microphone for voice record"></textarea>
                     <img src={logoCloseBtn} alt="Close button image" className={`${styles.closeBtn}`} onClick={closeModal}></img>
-                    <img src={recordLogo} alt="Record logo" className={`${styles.record} ${toggleValue ? '' : styles.hidden}`}></img>
+                    <img src={recordLogo} alt="Record logo" className={`${styles.record} ${toggleValueMicro ? '' : styles.hidden}`}></img>
                     <img
                         src={logoMicro}
                         alt="Microphone logo"
-                        className={`${styles.micro} ${toggleValue === true ? styles.red : ''}`}
+                        className={`${styles.micro} ${toggleValueMicro === true ? styles.red : ''}`}
                         onClick={handleVoiceStart}
                     />
                     <span className={`${styles.buttonBlock} ${disabledBtn.toString('').length >= 6 ? '' : styles.disabled}`} onClick={addNewTask}><button className={`${styles.buttonForm}`} type="submit">+</button></span>

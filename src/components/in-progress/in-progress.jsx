@@ -6,7 +6,7 @@ import BoardContext from '../../services/boardContext.jsx';
 import AcceptDeleteTask from '../modal/accept-delete-task/accept-delete-task.jsx';
 
 function InProgress({ text }) {
-  const { inProgress, setInProgress, setAcceptDeleteWindow, setChoosenTask } = useContext(BoardContext);
+  const { setAcceptDeleteWindow, setDeleteColumn, setChoosenTask } = useContext(BoardContext);
 
   const [{ isDraggingStart }, dragRef] = useDrag({
     type: 'progress',
@@ -19,6 +19,7 @@ function InProgress({ text }) {
   const deleteThisTask = () => {
     setAcceptDeleteWindow(true);
     setChoosenTask(text);
+    setDeleteColumn('inProgress');
   };
 
   return (
@@ -27,7 +28,7 @@ function InProgress({ text }) {
         {text.task}
         <img src={logoCloseBtn} alt="deleteIon" className={`${styles.deletePin}`} onClick={deleteThisTask}></img>
       </article >
-      <AcceptDeleteTask setter={setInProgress} column={inProgress} />
+      <AcceptDeleteTask />
     </>
   );
 }

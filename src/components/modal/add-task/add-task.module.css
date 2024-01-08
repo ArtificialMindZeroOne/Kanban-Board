@@ -243,9 +243,7 @@
 
 .record {
     width: 105px;
-    height: 35px;
-    background-color: grey;
-    border-radius: 5px;
+    height: 45px;
 }
 
 .hidden {

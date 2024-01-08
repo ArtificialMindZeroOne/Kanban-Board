@@ -23,8 +23,9 @@ function Board() {
     const [acceptDeleteWindow, setAcceptDeleteWindow] = useState(false);
     const [acceptDeleteAllWindow, setAcceptDeleteAllWindow] = useState(false);
     const [text, setText] = useState('');
-    const [choosenTask, setChoosenTask] = useState();
     const [disabledBtn, setDisabledBtn] = useState([]);
+    const [deleteColumn, setDeleteColumn] = useState();
+    const [choosenTask, setChoosenTask] = useState();
 
     window.onkeydown = function (e) {
         if (e.keyCode == 27) {
@@ -70,8 +71,9 @@ function Board() {
             setDone(done.filter((item) => item.id !== data.id));
         },
         collect: (monitor) => ({
-            isDraggingOverChecking: monitor.isOver(),
+            isDraggingOverChecking: monitor.isOver({ shallow: true }),
         })
+        
     });
 
     const [{ isDraggingOverDone }, dropRef4] = useDrop({
@@ -86,9 +88,9 @@ function Board() {
             isDraggingOverDone: monitor.isOver(),
         })
     });
-
+ 
     return (
-        <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, checking, setChecking, done, setDone, acceptDeleteWindow, setAcceptDeleteWindow, text, setText, choosenTask, setChoosenTask, acceptDeleteAllWindow, setAcceptDeleteAllWindow, disabledBtn, setDisabledBtn }}>
+        <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, checking, setChecking, done, setDone, acceptDeleteWindow, setAcceptDeleteWindow, text, setText, acceptDeleteAllWindow, setAcceptDeleteAllWindow, disabledBtn, setDisabledBtn, deleteColumn, setDeleteColumn, choosenTask, setChoosenTask }}>
             <CleanTasksBtn />
             <AddTask />
             <section className={styles.board}>
@@ -112,7 +114,7 @@ function Board() {
                             <InProgress key={el.id} text={el} />
                         ))}
                     </div>
-                    <div className={`${styles.statusList__column} ${isDraggingOverChecking ? styles.canDrop : null}`} ref={dropRef3}>
+                    <div className={`${styles.statusList__column} ${isDraggingOverChecking ? styles.canDrop : ''}`} ref={dropRef3}>
                         {checking.map((el) => (
                             <Checking key={el.id} text={el} />
                         ))}
