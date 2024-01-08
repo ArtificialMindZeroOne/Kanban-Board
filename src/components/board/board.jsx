@@ -73,7 +73,7 @@ function Board() {
         collect: (monitor) => ({
             isDraggingOverChecking: monitor.isOver({ shallow: true }),
         })
-        
+
     });
 
     const [{ isDraggingOverDone }, dropRef4] = useDrop({
@@ -88,21 +88,19 @@ function Board() {
             isDraggingOverDone: monitor.isOver(),
         })
     });
- 
+
     return (
         <BoardContext.Provider value={{ backlog, setBacklog, inProgress, setInProgress, modalView, setModalView, checking, setChecking, done, setDone, acceptDeleteWindow, setAcceptDeleteWindow, text, setText, acceptDeleteAllWindow, setAcceptDeleteAllWindow, disabledBtn, setDisabledBtn, deleteColumn, setDeleteColumn, choosenTask, setChoosenTask }}>
             <CleanTasksBtn />
             <AddTask />
             <section className={styles.board}>
                 <AddTaskBtn />
-
                 <div className={styles.titles}>
                     <StatusOne />
                     <StatusTwo />
                     <StatusThree />
                     <StatusFour />
                 </div>
-
                 <div className={styles.statusList}>
                     <div className={`${styles.statusList__column} ${isDraggingOverBacklog ? styles.canDrop : null}`} ref={dropRef1}>
                         {backlog.map((el) => (
@@ -125,7 +123,6 @@ function Board() {
                         ))}
                     </div>
                 </div>
-
             </section>
         </BoardContext.Provider>
     );

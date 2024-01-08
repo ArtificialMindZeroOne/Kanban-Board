@@ -9,7 +9,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 
 function AddTask() {
-    const { modalView, setModalView, backlog, setBacklog, text, setText, disabledBtn, setDisabledBtn } = useContext(BoardContext);
+    const { modalView, setModalView, backlog, setBacklog, text, setText, disabledBtn, setDisabledBtn, setAcceptDeleteWindow, setAcceptDeleteAllWindow } = useContext(BoardContext);
     const [toggleValueMicro, setToggleValueMicro] = useState(false);
 
     const {
@@ -21,6 +21,20 @@ function AddTask() {
 
     const textArea = useRef();
 
+    window.onkeydown = function (e) {
+        if (e.keyCode == 27) {
+            setAcceptDeleteWindow(false);
+            setAcceptDeleteAllWindow(false);
+            setModalView(false);
+            setText('');
+            if (toggleValueMicro === true) {
+                setToggleValueMicro(false);
+                SpeechRecognition.stopListening();
+                resetTranscript();
+            }
+        }
+    };
+
     const closeModal = () => {
         if (toggleValueMicro === true) {
             setToggleValueMicro(false);
@@ -28,7 +42,6 @@ function AddTask() {
         }
         setModalView(false);
         resetTranscript();
-
     };
 
     const addNewTask = (e) => {
@@ -59,13 +72,17 @@ function AddTask() {
         setText([`${text}`].join('').replace(/(^[\s]+|[\s]+$)/g, ''));
     }, [listening])
 
+    useEffect(() => {
+        textArea.current.focus();
+    }, [modalView]);
+
     return (
         <>
             <div className={`${styles.back} ${modalView ? styles.showBack : null}`} onClick={closeModal}></div>
             <div className={`${styles.modal} ${modalView ? styles.show : null}`}>
                 <form className={`${styles.form}`}>
                     <h1 className={`${styles.title}`}>Enter the task text</h1>
-                    <textarea className={`${styles.textarea}`}
+                    <textarea className={`${styles.textarea}`} minlength="6"
                         onChange={e => {
                             setText(e.target.value);
                             resetTranscript();
@@ -78,7 +95,7 @@ function AddTask() {
                         className={`${styles.micro} ${toggleValueMicro === true ? styles.red : ''}`}
                         onClick={handleVoiceStart}
                     />
-                    <span className={`${styles.buttonBlock} ${disabledBtn.toString('').length >= 6 ? '' : styles.disabled}`} onClick={addNewTask}><button className={`${styles.buttonForm}`} type="submit">+</button></span>
+                    <span className={`${styles.buttonBlock} ${disabledBtn.toString('').replace(/\s*/g, "").length >= 6 && toggleValueMicro === false ? '' : styles.disabled}`} onClick={addNewTask}><button className={`${styles.buttonForm}`} type="submit">+</button></span>
                 </form>
             </div>
 

@@ -26,7 +26,7 @@ function InProgress({ text }) {
     <>
       <article className={`${styles.inProgress} ${isDraggingStart ? styles.hidden : null}`} ref={dragRef}>
         {text.task}
-        <img src={logoCloseBtn} alt="deleteIon" className={`${styles.deletePin}`} onClick={deleteThisTask}></img>
+        <img src={logoCloseBtn} alt="Delete icon" className={`${styles.deletePin}`} onClick={deleteThisTask}></img>
       </article >
       <AcceptDeleteTask />
     </>
